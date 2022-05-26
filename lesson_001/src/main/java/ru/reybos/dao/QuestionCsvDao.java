@@ -19,10 +19,11 @@ public class QuestionCsvDao implements QuestionDao {
     }
 
     private List<Question> readQuestionsFromFile() {
-        try {
-            MappingIterator<Question> questionIter = new CsvMapper()
-                    .readerWithTypedSchemaFor(Question.class)
-                    .readValues(getClass().getResource(sourceFile));
+        try (
+                MappingIterator<Question> questionIter = new CsvMapper()
+                        .readerWithTypedSchemaFor(Question.class)
+                        .readValues(getClass().getResource(sourceFile))
+        ) {
             return questionIter.readAll();
         } catch (IOException e) {
             System.out.println(e);
